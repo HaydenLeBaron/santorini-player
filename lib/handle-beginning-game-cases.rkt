@@ -23,24 +23,25 @@ Returns a resulting board.|#
     ;; The first player in the result array is the same  as the provided one.
     ;; The second player represent the starting placement of this program's tokens.
     [(list (list r1 c1) (list r2 c2))
-     (let ([spaces (cartesian-product (range 1 6) (range 1 6))]
+     (let* ([spaces (cartesian-product (range 1 6) (range 1 6))]
            [pick-elt (λ (l) (list-ref l (random (length l))))])
-      (let ([get-first-space-options
+      (let* ([get-first-space-options
             (lambda (l)
               (not (or (equal? l (list r1 c1))
                         (equal? l (list r2 c2)))))])
-       (let ([first-space-options (filter get-first-space-options spaces)])
-         (let ([builder-1-pos (pick-elt first-space-options)])
-           (let ([get-second-space-options
-                  (lambda (l)
-                    (not (or (equal? l (list r1 c1))
-                             (equal? l (list r2 c2))
-                             (equal? l builder-1-pos))))])
-             (let ([second-space-options
-                    (filter get-second-space-options spaces)])
-               (let ([builder-2-pos (pick-elt second-space-options)])
+       (let* ([first-space-options (filter get-first-space-options spaces)]
+             [builder-1-pos (pick-elt first-space-options)]
+             [get-second-space-options
+              (lambda (l)
+                (not (or (equal? l (list r1 c1))
+                         (equal? l (list r2 c2))
+                         (equal? l builder-1-pos))))]
+             [second-space-options
+              (filter get-second-space-options spaces)]
+             [builder-2-pos (pick-elt second-space-options)])
+
                  (list (list (list r1 c1) (list r2 c2))
-                       (list builder-1-pos builder-2-pos)))))))))]
+                       (list builder-1-pos builder-2-pos)))))]
 
     ;; Else, this is not a beginning turn. Return the input board without doing anything.
     [ANY board]))

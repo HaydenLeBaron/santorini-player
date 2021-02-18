@@ -11,6 +11,15 @@ functions are named boardq-*. |#
 
 #lang racket
 
+(provide boardq-turn
+         boardq-spaces
+         boardq-players
+         boardq-my-tokens
+         boardq-enemy-tokens
+         boardq-levelof-space
+         boardq-space-capped?
+         boardq-adjacent-spaces)
+
 
 
 ;; * A board is a dictionary with three keys:
