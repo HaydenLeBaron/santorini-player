@@ -19,7 +19,7 @@ by the referee program.|#
 
   ;; (begin
   ;;   if beginning-case, then board->stdout(handle-beginning-game-cases(read-from-stdin)), else:
-  ;;   board->stdout(make-turn(json->board()))
+  ;;   board->stdout(make-turn(handle-beginning-game-cases(json->board())))
   ;;   santorini-player-main
   ;;   )
   (void))
