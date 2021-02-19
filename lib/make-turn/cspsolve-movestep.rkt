@@ -9,45 +9,71 @@
 #|Take a board and return a set of all possible boards, allowing
 only one move step to be taken|#
 (define (cspsolve-movestep board)
-  (let* ([spaces (boardq-spaces board)]
-        [players (boardq-players board)]
-        [my-tokens (boardq-my-tokens board)]
-        [enemy-tokens (boardq-enemy-tokens board)]
-        [mytok1 (car (boardq-my-tokens board))]
-        [mytok2 (cadr (boardq-my-tokens board))]
-        [enmytok1 (car (boardq-enemy-tokens board))]
-        [enmytok2 (cadr (boardq-enemy-tokens board))]
-        [mytok1-r (car mytok1)]
-        [mytok1-c (cadr mytok1)]
-        [mytok2-r (car mytok2)]
-        [mytok2-c (cadr mytok2)]
-        [spaces-mytok1-can-move-to
-         (get-spaces-tok-can-move-to mytok1
-                                     mytok2
-                                     enmytok1
-                                     enmytok2
-                                     board)
-         ]
-        [spaces-mytok2-can-move-to
+  (let* ([mytok1 (car (boardq-my-tokens board))]
+         [mytok2 (cadr (boardq-my-tokens board))]
+         [enmytok1 (car (boardq-enemy-tokens board))]
+         [enmytok2 (cadr (boardq-enemy-tokens board))]
+         [spaces-mytok1-can-move-to
+          (get-spaces-tok-can-move-to mytok1
+                                      mytok2
+                                      enmytok1
+                                      enmytok2
+                                      board)]
+         [spaces-mytok2-can-move-to
           (get-spaces-tok-can-move-to mytok2
                                       mytok1
                                       enmytok1
                                       enmytok2
-                                      board)
-                                   ])
-    ;;(set-union (list->set
-    (list ;; TODO: delete outer list
-                (gen-valid-boards-from-moves mytok1
-                                             spaces
-                                             spaces-mytok1-can-move-to)
-               ;; )
-               ;;(list->set
-                (gen-valid-boards-from-moves mytok2
-                                             spaces
-                                             spaces-mytok2-can-move-to)
-                )
-                ;;))
-    ))
+                                      board)])
+    (let ([new-players-lists
+           (map (λ (mytok-new-posns)
+                  (list mytok-new-posns (boardq-enemy-tokens board))) ;; DON'T REVERSE PLAYERS
+                (gen-valid-mytok-new-posns-from-moves mytok1
+                                                      mytok2
+                                                      spaces-mytok1-can-move-to
+                                                      spaces-mytok2-can-move-to))])
+      (map (λ (new-players)
+             (hash "players" new-players
+                   "spaces" (boardq-spaces board)
+                   "turn" (+ 1 (boardq-turn board))))
+           new-players-lists))))
+
+
+#|Generate a list of list of 1-idxed coordinate pairs possible....
+e.g.
+
+;; UNANNOTATED
+(list
+ (list '(1 2) '(3 4))
+ ...
+ (list '(1 3) '(3 4))
+ )
+
+;; ANNOTATED
+(list
+ ;; OUTER LIST 1
+ (list ;; 2 INNER LISTS -- '(1 2) '(3 4)
+  '(1 2) '(3 4))
+ ...
+ ;; OUTER LIST N
+ (list ;; 2 INNER LISTS
+  '(1 3) '(3 4))
+ )
+
+The resulting list may contain isomorphic new token positions.
+;; TODO: remove isomporhic "duplicates" |#
+(define (gen-valid-mytok-new-posns-from-moves
+         mytok1
+         mytok2
+         spaces-mytok1-can-move-to
+         spaces-mytok2-can-move-to)
+  (remove-duplicates
+   (append
+    (cartesian-product spaces-mytok1-can-move-to `(,mytok2))
+    (cartesian-product spaces-mytok2-can-move-to `(,mytok1))))
+  )
+
+
 
 #|Return a list of ordered pairs (coods are 1-idxed) such that moving the ordered pair `tok`
 would result in a valid move. Takes `obstacle`s which are ordered pairs occupying
@@ -76,15 +102,8 @@ are too high or low for tok to move to (and which are capped), etc.|#
      adjspcs-to-tok)))
 
 
-#|Take the ordered-pair position  mytok, as well as a list of
-ordered pairs containing the spaces mytok can move to, and generate every valid
-board.|#
-;; BKMRK:TODO: implement
-(define (gen-valid-boards-from-moves mytok spaces spaces-mytok-can-move-to)
-  (void)
-  )
+;; TODO: DELETE ME AFTER TEST HAS BEEN WRITTEN
+;; (cspsolve-movestep (string->jsexpr
 
-(cspsolve-movestep (string->jsexpr
-
-                    "{\"players\":[[[2,5],[3,5]],[[3,4],[4,4]]], \"spaces\":[[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]], \"turn\":19}"
-))
+;;                     "{\"players\":[[[2,5],[3,5]],[[3,4],[4,4]]], \"spaces\":[[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]], \"turn\":19}"
+;; ))

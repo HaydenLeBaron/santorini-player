@@ -19,7 +19,7 @@ been made (in accordance with the rules of Santorini.)|#
   (let ([post-move-board-set (cspout->setofboard (cspsolve-movestep board))])
     (let ([winning-board-set (get-wins-from-boardset post-move-board-set)])
 
-    (if (not (empty? winning-board-set))
+      (if (not (empty? winning-board-set))
         (rand-elt-of winning-board-set)
         (choose-best-board (cspout->setofboard
                             (listof-set->set
