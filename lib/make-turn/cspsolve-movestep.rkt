@@ -4,7 +4,8 @@
          json
          "../board.rkt")
 
-(provide cspsolve-movestep)
+(provide cspsolve-movestep
+         get-spaces-tok-can-move-to)
 
 #|Take a board and return a set of all possible boards, allowing
 only one move step to be taken|#
@@ -33,9 +34,9 @@ only one move step to be taken|#
                                                       spaces-mytok1-can-move-to
                                                       spaces-mytok2-can-move-to))])
       (map (λ (new-players)
-             (hash "players" new-players
-                   "spaces" (boardq-spaces board)
-                   "turn" (+ 1 (boardq-turn board))))
+             (hasheq "players" new-players
+                     "spaces" (boardq-spaces board)
+                     "turn" (+ 1 (boardq-turn board))))
            new-players-lists))))
 
 
@@ -84,26 +85,18 @@ are too high or low for tok to move to (and which are capped), etc.|#
 (define (get-spaces-tok-can-move-to tok obstacle1 obstacle2 obstacle3 board)
   (let ([adjspcs-to-tok (boardq-adjacent-spaces board (car tok) (cadr tok))])
     ;; Filter adjspcs-to-tok such that it does not contain:
-    (filter-not
+    (filter
      (λ (spc-rc)
        (let ([r (car spc-rc)]
              [c (cadr spc-rc)])
-         (or
-          ;; - spaces obstructed by other (obstacle) tokens.
-          (equal? spc-rc obstacle1)
-          (equal? spc-rc obstacle2)
-          (equal? spc-rc obstacle3)
-          ;; - capped spaces (level 4 spaces)
-          (boardq-space-capped? board r c)
-          ;; - Spaces that are too high for the token to jump to.
-          (> (boardq-levelof-space board r c)
-             (+ 1 (boardq-levelof-space board (car tok) (cadr tok))))
-          )))
+         (not (or
+               ;; - spaces obstructed by other (obstacle) tokens.
+               (equal? spc-rc obstacle1)
+               (equal? spc-rc obstacle2)
+               (equal? spc-rc obstacle3)
+               ;; - capped spaces (level 4 spaces)
+               (boardq-space-capped? board r c)
+               ;; - Spaces that are too high for the token to jump to.
+               (> (boardq-levelof-space board r c)
+                  (+ 1 (boardq-levelof-space board (car tok) (cadr tok))))))))
      adjspcs-to-tok)))
-
-
-;; TODO: DELETE ME AFTER TEST HAS BEEN WRITTEN
-;; (cspsolve-movestep (string->jsexpr
-
-;;                     "{\"players\":[[[2,5],[3,5]],[[3,4],[4,4]]], \"spaces\":[[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]], \"turn\":19}"
-;; ))
