@@ -34,9 +34,9 @@ only one move step to be taken|#
                                                       spaces-mytok1-can-move-to
                                                       spaces-mytok2-can-move-to))])
       (map (λ (new-players)
-             (hasheq "players" new-players
-                     "spaces" (boardq-spaces board)
-                     "turn" (+ 1 (boardq-turn board))))
+             (hash 'players new-players
+                   'spaces (boardq-spaces board)
+                   'turn (+ 1 (boardq-turn board))))
            new-players-lists))))
 
 

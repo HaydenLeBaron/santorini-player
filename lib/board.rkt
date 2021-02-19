@@ -43,10 +43,10 @@ functions are named boardq-*. |#
   (hash-ref board 'players))
 
 (define (boardq-my-tokens board)
-  (list-ref (hash-ref board 'players) 0))
+  (car (hash-ref board 'players)))
 
 (define (boardq-enemy-tokens board)
-  (list-ref (hash-ref board 'players) 1))
+  (cadr (hash-ref board 'players)))
 
 ;; space ordered pair is 1-idxed
 (define (boardq-levelof-space board row col)

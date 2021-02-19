@@ -3,10 +3,11 @@
 (require rackunit
          "../lib/make-turn/cspsolve-movestep.rkt"
          "../lib/board.rkt"
+         "../lib/aux-io.rkt"
          json)
 
 
-(define board1 (string->jsexpr
+(define board1 (jsonstr->board
                 "{\"players\":[[[2, 3], [4, 4]], [[2, 5], [3, 5]]],
                   \"spaces\":[[0, 0, 0, 0, 2],
                               [1, 1, 2, 0, 0],
@@ -15,7 +16,7 @@
                               [0, 0, 0, 1, 4]],
                   \"turn\": 18}"))
 
-(define board2 (string->jsexpr
+(define board2 (jsonstr->board
                 "{\"players\":[[[2, 5], [3, 5]], [[3, 3], [4, 4]]],
                   \"spaces\":[[0, 0, 0, 0, 2],
                               [1, 1, 2, 0, 0],
@@ -23,21 +24,6 @@
                               [0, 0, 3, 0, 0],
                               [0, 0, 0, 1, 4]],
                   \"turn\": 18}"))
-
-
-
-
-(define board3 (string->jsexpr
-                "{\"players\":[],
-                  \"spaces\":[],
-                  \"turn\": 18}"
-                ))
-
-(define board4 (string->jsexpr
-                "{\"players\":[],
-                  \"spaces\":[],
-                  \"turn\": 18}"
-                ))
 
 
 (check-equal? (length (remove-duplicates (boardq-adjacent-spaces board1 3 2))) 8)
@@ -104,10 +90,10 @@
 (check-equal? (length (cspsolve-movestep board1)) 12)
 (check-equal? (length (cspsolve-movestep board2)) 4)
 
-;; (check-equal? (andmap
-;;                (λ (brd)
-;;                  (= 19 (boardq-turn brd)))
-;;                (cspsolve-movestep board1))
-;;                #t)
+(check-equal? (andmap
+               (λ (brd)
+                 (= 19 (boardq-turn brd)))
+               (cspsolve-movestep board1))
+               #t)
 
 ;(cspsolve-movestep board2)
