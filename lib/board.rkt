@@ -50,7 +50,7 @@ functions are named boardq-*. |#
 
 ;; space ordered pair is 1-idxed
 (define (boardq-levelof-space board row col)
-  (list-ref (list-ref (boardq-spaces board) row) col))
+  (list-ref (list-ref (boardq-spaces board) (- row 1)) (- col 1)))
 
 (define (boardq-space-capped? board row col)
   (= (boardq-levelof-space board row col) 4))
