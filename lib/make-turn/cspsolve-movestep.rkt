@@ -1,13 +1,11 @@
 #lang racket
 
-(require racket/set
-         json
-         "../board.rkt")
+(require "../board.rkt")
 
 (provide cspsolve-movestep
          get-spaces-tok-can-move-to)
 
-#|Take a board and return a set of all possible boards, allowing
+#|Take a board and return a list of all possible boards, allowing
 only one move step to be taken|#
 (define (cspsolve-movestep board)
   (let* ([mytok1 (car (boardq-my-tokens board))]
@@ -40,7 +38,8 @@ only one move step to be taken|#
            new-players-lists))))
 
 
-#|Generate a list of list of 1-idxed coordinate pairs possible....
+#|Generate a list of list of 1-idxed coordinate pairs possible
+for my token 1 at position mytok1 to be moved to.
 e.g.
 
 ;; UNANNOTATED
@@ -81,7 +80,6 @@ would result in a valid move. Takes `obstacle`s which are ordered pairs occupyin
 spaces that `tok` definitely can't move to (other tokens)--as well as the entire board
 representation which is used to determine which of the adjacent spaces to tok
 are too high or low for tok to move to (and which are capped), etc.|#
-;; TODO: write tests
 (define (get-spaces-tok-can-move-to tok obstacle1 obstacle2 obstacle3 board)
   (let ([adjspcs-to-tok (boardq-adjacent-spaces board (car tok) (cadr tok))])
     ;; Filter adjspcs-to-tok such that it does not contain:
