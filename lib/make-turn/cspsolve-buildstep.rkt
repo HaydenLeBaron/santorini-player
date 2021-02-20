@@ -8,9 +8,13 @@
 #|Takes a single board as input. Calculates every possible
 build step that could be taken, then returns a set of all
 possible boards.|#
-;; TODO: write tests
-(define (cspsolve-buildstep board my-moved-tok my-other-tok)
-  (let* ([enmytok1 (car (boardq-enemy-tokens board))]
+(define (cspsolve-buildstep board)
+  (let* ([my-moved-tok (boardq-tok-just-moved board)]
+         [my-other-tok
+          (car (filter (λ (my-tok)
+                         (not (equal? my-tok my-moved-tok)))
+                       (boardq-my-tokens board)))]
+         [enmytok1 (car (boardq-enemy-tokens board))]
          [enmytok2 (cadr (boardq-enemy-tokens board))]
          [spaces-my-moved-tok-can-build-on
           (get-spaces-tok-can-build-on my-moved-tok

@@ -2,17 +2,9 @@
 
 #lang racket
 
-(provide cspout->setofboard
-         rand-elt-of
+(provide rand-elt-of
          listof-set->set
          )
-
-
-#|Takes the output of a csp solver function and converts it to a
-set of boards.|#
-(define (cspout->setofboard cspout)
-  (void)
-  )
 
 
 #| Pick a random element from a set s |#

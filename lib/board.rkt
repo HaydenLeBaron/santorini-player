@@ -16,6 +16,7 @@ functions are named boardq-*. |#
          boardq-players
          boardq-my-tokens
          boardq-enemy-tokens
+         boardq-tok-just-moved
          boardq-levelof-space
          boardq-space-capped?
          boardq-adjacent-spaces)
@@ -47,6 +48,12 @@ functions are named boardq-*. |#
 
 (define (boardq-enemy-tokens board)
   (cadr (hash-ref board 'players)))
+
+;; This function will throw an error if
+;; called before the move-step of the current turn has completed.
+;; This function should only be used during and after the build step.
+(define (boardq-tok-just-moved board)
+  (hash-ref board 'tok-just-moved))
 
 ;; space ordered pair is 1-idxed
 (define (boardq-levelof-space board row col)

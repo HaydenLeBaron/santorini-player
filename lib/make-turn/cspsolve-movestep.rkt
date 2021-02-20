@@ -34,12 +34,17 @@ only one move step to be taken|#
       (map (λ (new-players)
              (hash 'players new-players
                    'spaces (boardq-spaces board)
-                   'turn (+ 1 (boardq-turn board))))
+                   'turn (+ 1 (boardq-turn board))
+                   ;; First of my-tokens is the one that was just moved
+                   ;; because of gen-valid-mytok-new-posns-from-moves
+                   'tok-just-moved (caar new-players)))
            new-players-lists))))
 
 
 #|Generate a list of list of 1-idxed coordinate pairs possible
 for my token 1 at position mytok1 to be moved to.
+THE FIRST COORDINATE IN THE RETURNED LIST IS THE TOKEN THAT WAS MOVED.
+;; TODO: test that positions are correct as stated
 e.g.
 
 ;; UNANNOTATED
@@ -69,8 +74,12 @@ The resulting list may contain isomorphic new token positions.
          spaces-mytok2-can-move-to)
   (remove-duplicates
    (append
-    (cartesian-product spaces-mytok1-can-move-to `(,mytok2))
-    (cartesian-product spaces-mytok2-can-move-to `(,mytok1))))
+    (map (λ (space-mytok1-can-move-to)
+           (list space-mytok1-can-move-to `(,mytok2)))
+         spaces-mytok1-can-move-to)
+    (map (λ (space-mytok2-can-move-to)
+           (list space-mytok2-can-move-to `(,mytok1)))
+     spaces-mytok2-can-move-to)))
   )
 
 
