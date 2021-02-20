@@ -4,26 +4,9 @@
          "../lib/make-turn/cspsolve-movestep.rkt"
          "../lib/board.rkt"
          "../lib/aux-io.rkt"
+         "test-boards.rkt"
          json)
 
-
-(define board1 (jsonstr->board
-                "{\"players\":[[[2, 3], [4, 4]], [[2, 5], [3, 5]]],
-                  \"spaces\":[[0, 0, 0, 0, 2],
-                              [1, 1, 2, 0, 0],
-                              [1, 0, 0, 3, 0],
-                              [0, 0, 3, 0, 0],
-                              [0, 0, 0, 1, 4]],
-                  \"turn\": 18}"))
-
-(define board2 (jsonstr->board
-                "{\"players\":[[[2, 5], [3, 5]], [[3, 3], [4, 4]]],
-                  \"spaces\":[[0, 0, 0, 0, 2],
-                              [1, 1, 2, 0, 0],
-                              [1, 0, 0, 3, 0],
-                              [0, 0, 3, 0, 0],
-                              [0, 0, 0, 1, 4]],
-                  \"turn\": 18}"))
 
 
 (check-equal? (length (remove-duplicates (boardq-adjacent-spaces board1 3 2))) 8)
