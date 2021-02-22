@@ -8,6 +8,7 @@
 
 
 #| Pick a random element from a set s |#
+;; TODO: DELETEME?
 (define (rand-elt-of s)
   (list-ref s (random (length (set->list s)))))
 

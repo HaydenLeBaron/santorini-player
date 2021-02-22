@@ -19,7 +19,7 @@ been made (in accordance with the rules of Santorini.)|#
   (let* ([post-move-board-list (cspsolve-movestep board)]
          [winning-board-list (get-wins-from-boardlist post-move-board-list)])
     (if (not (empty? winning-board-list))
-        (strip-unnecessary-keys (rand-elt-of winning-board-list))
+        (strip-unnecessary-keys (car winning-board-list))
         (choose-best-board
          (flatten (map cspsolve-buildstep post-move-board-list))))))
 

@@ -1,6 +1,6 @@
 #lang racket
 
-(require "make-turn/aux-make-turn.rkt")
+(require "aux-make-turn.rkt")
 (provide choose-best-board)
 
 #|Take a board list as input and choose the board
