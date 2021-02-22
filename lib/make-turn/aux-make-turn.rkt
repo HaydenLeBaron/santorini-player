@@ -4,8 +4,7 @@
 
 (require "../board.rkt")
 (provide rand-elt-of
-         listof-set->set
-         )
+         strip-unnecessary-keys)
 
 
 #| Pick a random element from a set s |#
