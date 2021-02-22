@@ -15,8 +15,6 @@
              (or
               (= 3 (boardq-levelof-space board (car mytok1) (cadr mytok1)))
               (= 3 (boardq-levelof-space board (car mytok2) (cadr mytok2))))))])
-      (filter
-       isa-winning-board?
-       boardlist)))
+    (filter isa-winning-board? boardlist)))
 
 

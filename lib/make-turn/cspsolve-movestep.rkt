@@ -75,12 +75,11 @@ The resulting list may contain isomorphic new token positions.
   (remove-duplicates
    (append
     (map (λ (space-mytok1-can-move-to)
-           (list space-mytok1-can-move-to `(,mytok2)))
+           (list space-mytok1-can-move-to mytok2))
          spaces-mytok1-can-move-to)
     (map (λ (space-mytok2-can-move-to)
-           (list space-mytok2-can-move-to `(,mytok1)))
-     spaces-mytok2-can-move-to)))
-  )
+           (list space-mytok2-can-move-to mytok1))
+         spaces-mytok2-can-move-to))))
 
 
 
