@@ -2,6 +2,7 @@
 
 #lang racket
 
+(require "../board.rkt")
 (provide rand-elt-of
          listof-set->set
          )
@@ -13,9 +14,11 @@
   (list-ref s (random (length (set->list s)))))
 
 
-#|Takes a list of sets `los`. Returns a set containing all elements
-of each set in the list. |#
-(define (listof-set->set los)
-  (void)
-  )
+#|Returns an identical board (hash) except with only the required
+keys and associated values needed to create the JSON represenation.|#
+(define (strip-unnecessary-keys board)
+  (hash
+   'spaces (boardq-spaces board)
+   'players (boardq-players board)
+   'turn (boardq-turn board)))
 
