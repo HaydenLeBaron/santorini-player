@@ -22,7 +22,19 @@ by the referee program.|#
   ;;   board->stdout(make-turn(handle-beginning-game-cases(json->board())))
   ;;   santorini-player-main
   ;;   )
-  (void))
+
+  (begin
+    (handle-beginning-game-cases (stdin->board))
+    (splayer-main-loop)
+     )
+  )
+
+(define (splayer-main-loop)
+  (begin
+    (board->stdout (make-turn (stdin->board)))
+    (splayer-main-loop)
+    )
+  )
 
 
 ;; Call main

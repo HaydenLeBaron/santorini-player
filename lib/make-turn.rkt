@@ -8,6 +8,8 @@
          "make-turn/cspsolve-movestep.rkt"
          "make-turn/get-wins-from-boardlist.rkt")
 
+(provide make-turn)
+
 #|"Takes a turn" on the board. In other words,
 Takes a valid board as input, and returns
 another board that represents the input board
@@ -21,4 +23,3 @@ been made (in accordance with the rules of Santorini.)|#
         (choose-best-board
          (flatten (map cspsolve-buildstep post-move-board-list))))))
 
-(require "../test/test-boards.rkt")
