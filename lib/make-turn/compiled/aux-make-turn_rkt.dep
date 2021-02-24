@@ -1,0 +1,1 @@
+("7.9" racket ("010f574779bde3d6d876452faf5cbf3a866d3fe3" . "6aeea3b5565a9a1a392f1fdbd3d1b424e3fbf0fb") #"/home/haydenthebaron/my-repos/santorini-player/lib/make-turn/../board.rkt" (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))
