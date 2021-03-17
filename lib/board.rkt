@@ -14,8 +14,12 @@ functions are named boardq-*. |#
 (provide boardq-turn
          boardq-spaces
          boardq-players
+         boardq-my-player
+         boardq-enemy-player
          boardq-my-tokens
          boardq-enemy-tokens
+         boardq-my-card
+         boardq-enemy-card
          boardq-tok-just-moved
          boardq-levelof-space
          boardq-space-capped?
@@ -40,18 +44,36 @@ functions are named boardq-*. |#
 (define (boardq-spaces board)
   (hash-ref board 'spaces))
 
+;; FIXME: check every old instance of call to this func and correct it if necessary
 (define (boardq-players board)
   (hash-ref board 'players))
 
-(define (boardq-my-tokens board)
-  (car (hash-ref board 'players)))
+(define (boardq-my-player board)
+  (car (boardq-players board)))
 
+(define (boardq-enemy-player board)
+  (cadr (boardq-players board)))
+
+;; FIXME: check every old instance of call to this func and correct it if necessary
+(define (boardq-my-tokens board)
+  (hash-ref (boardq-my-player board) 'tokens))
+
+;; FIXME: check every old instance of call to this func and correct it if necessary
 (define (boardq-enemy-tokens board)
-  (cadr (hash-ref board 'players)))
+  (hash-ref (boardq-enemy-player board) 'tokens))
+
+(define (boardq-my-card board)
+  (hash-ref (boardq-my-player board) 'card))
+
+(define (boardq-enemy-card board)
+  (hash-ref (boardq-enemy-player board) 'card))
+
+
 
 ;; This function will throw an error if
 ;; called before the move-step of the current turn has completed.
 ;; This function should only be used during and after the build step.
+;; FIXME: check every old instance of call to this func and correct it if necessary
 (define (boardq-tok-just-moved board)
   (hash-ref board 'tok-just-moved))
 
