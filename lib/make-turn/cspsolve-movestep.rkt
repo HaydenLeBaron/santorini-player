@@ -26,7 +26,8 @@ only one move step to be taken|#
                                       board)])
     (let ([new-players-lists
            (map (λ (mytok-new-posns)
-                  (list mytok-new-posns (boardq-enemy-tokens board))) ;; DON'T REVERSE PLAYERS
+                  (list (hash 'card (boardq-my-card board) 'tokens mytok-new-posns)
+                        (make-hash (hash->list (boardq-enemy-player board))))) ;; DON'T REVERSE PLAYERS
                 (gen-valid-mytok-new-posns-from-moves mytok1
                                                       mytok2
                                                       spaces-mytok1-can-move-to
@@ -37,7 +38,7 @@ only one move step to be taken|#
                    'turn (+ 1 (boardq-turn board))
                    ;; First of my-tokens is the one that was just moved
                    ;; because of gen-valid-mytok-new-posns-from-moves
-                   'tok-just-moved (caar new-players)))
+                   'tok-just-moved (car (hash-ref (car new-players) 'tokens))))
            new-players-lists))))
 
 

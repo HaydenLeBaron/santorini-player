@@ -40,5 +40,5 @@ board except that the players are in swapped order.|#
 (define (swap-players board)
   (hasheq
    'spaces (boardq-spaces board)
-   'players (list (boardq-enemy-tokens board) (boardq-my-tokens board))
+   'players (list (boardq-enemy-player board) (boardq-my-player board))
    'turn (boardq-turn board)))

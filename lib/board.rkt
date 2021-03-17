@@ -11,6 +11,7 @@ functions are named boardq-*. |#
 
 #lang racket
 
+
 (provide boardq-turn
          boardq-spaces
          boardq-players
@@ -44,7 +45,7 @@ functions are named boardq-*. |#
 (define (boardq-spaces board)
   (hash-ref board 'spaces))
 
-;; FIXME: check every old instance of call to this func and correct it if necessary
+;; DONE: check every old instance of call to this func and correct it if necessary
 (define (boardq-players board)
   (hash-ref board 'players))
 
