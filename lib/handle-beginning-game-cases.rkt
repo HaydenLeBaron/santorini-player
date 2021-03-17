@@ -8,20 +8,24 @@
 Returns a resulting board.|#
 (define (handle-beginning-game-cases board)
   (match board
-    [(list (list (list p1r1 p1c1) (list p1r2 p1c2))
-           (list (list p2r1 p2c1) (list p2r2 p2c2)))
-     ;; TODO: FIXME: are the players in the right order?
+
+    ;; Handle 2 player's, no board case => turn into full empty board at turn 0
+    [(list (hash-table ('card my-card-str)
+                       ('tokens (list (list p1r1 p1c1) (list p1r2 p1c2))))
+           (hash-table ('card enmy-card-str)
+                       ('tokens (list (list p2r1 p2c1) (list p2r2 p2c2)))))
      (hash
       'spaces (list '(0 0 0 0 0) '(0 0 0 0 0) '(0 0 0 0 0) '(0 0 0 0 0) '(0 0 0 0 0))
-      'players  (list (list (list p1r1 p1c1) (list p1r2 p1c2))
-                      (list (list p2r1 p2c1) (list p2r2 p2c2)))
+      'players  (list (hash 'card my-card-str
+                            'tokens (list (list p1r1 p1c1) (list p1r2 p1c2)))
+                      (hash 'card enmy-card-str
+                            'tokens (list (list p2r1 p2c1) (list p2r2 p2c2))))
       'turn 0)]
-    ;; If the board contains an array with 1 player, this program is the second player. The given
-    ;; player represents the opponent's tokens. The program should now return an  array of 2 players.
-    ;; The first player in the result array is the same  as the provided one.
-    ;; The second player represent the starting placement of this program's tokens.
+    ;; handle 1 player and 1 pre-player case
     [(list
-      (list (list r1 c1) (list r2 c2)))
+      (hash-table ('card my-card-str))
+      (hash-table ('card enmy-card-str)
+                  ('tokens (list (list r1 c1) (list r2 c2)))))
      (let* ([spaces (cartesian-product (range 1 6) (range 1 6))]
            [pick-elt (λ (l) (list-ref l (random (length l))))])
       (let* ([get-first-space-options
@@ -39,25 +43,24 @@ Returns a resulting board.|#
               (filter get-second-space-options spaces)]
              [builder-2-pos (pick-elt second-space-options)])
 
-                 (list (list (list r1 c1) (list r2 c2))
-                       (list builder-1-pos builder-2-pos)))))]
-    ;; If board contains only an array of 0 players,
+         (list (hash 'card enmy-card-str
+                     'tokens (list (list r1 c1) (list r2 c2)))
+               (hash 'card my-card-str
+                     'tokens (list builder-1-pos builder-2-pos))))))]
+    ;; If board contains only an array of 2 pre-players,
     ;; this program is the first player and should
     ;; return an array of 1 player to represent
     ;; the starting placement of the program's tokens.
     ;; STRATEGY: place 1 builder in the middle, and the other close by.
-    ['()
+    [(list (hash-table ('card my-card-str))
+           (hash-table ('card enmy-card-str)))
      (let ([builder-1-pos (list 3 3)]
            [builder-2-pos (list 4 5)])
-       (list (list builder-1-pos builder-2-pos)))]
+       (list
+        (hash 'card enmy-card-str)
+        (hash 'card my-card-str 'tokens (list builder-1-pos builder-2-pos))))]
 
 
 
     ;; Else, this is not a beginning turn. Return the input board without doing anything.
     [ANY board]))
-
-
-
-;; Manual testing
-;; TODO: DELETEME
-;(handle-beginning-game-cases (read-json))
