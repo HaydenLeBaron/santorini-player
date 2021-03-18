@@ -1,5 +1,5 @@
  #!/usr/bin/bash
 
 raco exe -o mybot ../../lib/santorini-player-main.rkt
-./run mybot play-search
+./tournament --cards Artemis Demeter mybot play-search
 
