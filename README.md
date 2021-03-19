@@ -1,9 +1,12 @@
 # README
 
+## Location of binary (for grading purposes)
+
+./bin/haydenlebaron-bot
+
 ## Brainstorm
 
 https://www.cs.utah.edu/~mflatt/cs6963/santorini.html
-
 
 
 
@@ -20,7 +23,6 @@ https://www.cs.utah.edu/~mflatt/cs6963/santorini.html
 - Note also that the board for a winning move should not include an unnecessary build step. A player program will not be sent a board if there are no valid moves or if the other player has already won 
 
 
-- TODO: look up racket JSON serializer/de-serializer
 
 
 
@@ -32,7 +34,6 @@ https://www.cs.utah.edu/~mflatt/cs6963/santorini.html
 - elements
 - capped
 
-## Implementation strategy
 
 
 
